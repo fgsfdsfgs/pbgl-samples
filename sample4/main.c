@@ -85,10 +85,10 @@ int main(void)
 
     glShadeModel(GL_SMOOTH);
     glClearColor(0.0f, 0.0f, 0.0f, 1.f);
-    glEnable(GL_CULL_FACE); // FIXME: disable when the Z issue is fixed
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_LIGHTING);
+    glEnable(GL_CULL_FACE); // FIXME: disable when the Z issue is fixed
     glDepthFunc(GL_LEQUAL);
 
     /* set up our lighting */
@@ -106,6 +106,7 @@ int main(void)
     load_textures(textures);
 
     GLboolean light = GL_TRUE;
+    GLboolean blend = GL_FALSE;
     GLfloat spd_x = 0.f;
     GLfloat spd_y = 0.f;
     GLfloat rot_x = 0.f;
@@ -150,6 +151,20 @@ int main(void)
         else if (buttons_held[SDL_CONTROLLER_BUTTON_DPAD_DOWN])
             spd_x -= 0.02f;
 
+        if (buttons_pressed[SDL_CONTROLLER_BUTTON_LEFTSHOULDER]) {
+          if (blend) {
+            glDisable(GL_BLEND);
+            glEnable(GL_DEPTH_TEST);
+            glEnable(GL_CULL_FACE); // FIXME: disable when the Z issue is fixed
+          } else {
+            glEnable(GL_BLEND);
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_CULL_FACE);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+          }
+          blend = !blend;
+        }
+
         /* render */
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -160,7 +175,9 @@ int main(void)
         glRotatef(rot_y, 0.0f, 1.0f, 0.0f); /* rotate on the Y axis */
 
         glBindTexture(GL_TEXTURE_2D, textures[filter]);  /* select our texture */
-        
+
+        glColor4f(1.f, 1.f, 1.f, 0.5f);
+
         glBegin(GL_QUADS);
             /* front face */
             glNormal3f(0.0f, 0.0f, 1.0f);
