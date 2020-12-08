@@ -60,10 +60,10 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glLoadIdentity();
+        glTranslatef(0.0f, 0.0f, -5.0f);
         glRotatef(rot_x, 1.0f, 0.0f, 0.0f); /* rotate on the X axis */
         glRotatef(rot_y, 0.0f, 1.0f, 0.0f); /* rotate on the Y axis */
         glRotatef(rot_z, 0.0f, 0.0f, 1.0f); /* rotate on the Z axis */
-        glTranslatef(0.0f, 0.0f, -5.0f);
         glBindTexture(GL_TEXTURE_2D, texture); /* select our texture */
 
         glBegin(GL_QUADS);

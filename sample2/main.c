@@ -41,8 +41,8 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glLoadIdentity();
-        glRotatef(rot_tri, 0.0f, 1.0f, 0.0f);
         glTranslatef(-1.5f, 0.0f, -6.0f);
+        glRotatef(rot_tri, 0.0f, 1.0f, 0.0f);
 
         glBegin(GL_TRIANGLES);
             /* front of pyramid */
